@@ -1,4 +1,14 @@
-const player1 = {
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+function playerInput(query) {
+    return new Promise(resolve => rl.question(query, resolve));
+}
+
+const mario = {
     Nome: "Mario",
     Velocidade: 4,
     Manobrabilidade: 3,
@@ -6,11 +16,59 @@ const player1 = {
     Pontos: 0
 }
 
-const player2 = {
+const luigi = {
     Nome: "Luigi",
     Velocidade: 3,
     Manobrabilidade: 4,
     Poder: 4,
+    Pontos: 0
+}
+
+const peach = {
+    Nome: "Peach",
+    Velocidade: 3,
+    Manobrabilidade: 4,
+    Poder: 2,
+    Pontos: 0
+}
+
+const yoshi = {
+    Nome: "Yoshi",
+    Velocidade: 2,
+    Manobrabilidade: 4,
+    Poder: 3,
+    Pontos: 0
+}
+
+const bowser = {
+    Nome: "Bowser",
+    Velocidade: 5,
+    Manobrabilidade: 2,
+    Poder: 5,
+    Pontos: 0
+}
+
+const dk = {
+    Nome: "Donkey Kong",
+    Velocidade: 2,
+    Manobrabilidade: 2,
+    Poder: 5,
+    Pontos: 0
+}
+
+const player1 = {
+    Nome: "",
+    Velocidade: 0,
+    Manobrabilidade: 0,
+    Poder: 0,
+    Pontos: 0
+}
+
+const player2 = {
+    Nome: "",
+    Velocidade: 0,
+    Manobrabilidade: 0,
+    Poder: 0,
     Pontos: 0
 }
 
@@ -68,11 +126,11 @@ async function playRaceEngine(character1, character2) {
             await logRollResult(character2.Nome, "Poder", diceResult2, character2.Poder)
             if (powerResult1 > powerResult2 && character2.Pontos > 0) {
                 console.log(`${character1.Nome} venceu o confronto e ${character2.Nome} perdeu 1 ponto!💀`)
-                character2.Pontos--                
+                character2.Pontos--
             }
             if (powerResult2 > powerResult1 && character1.Pontos > 0) {
                 console.log(`${character2.Nome} venceu o confronto e ${character1.Nome} perdeu 1 ponto!💀`)
-                character1.Pontos--                
+                character1.Pontos--
             }
             console.log(powerResult1 === powerResult2 ? "Confronto empatado! Nenhum ponto foi perdido!" : "")
         }
@@ -100,7 +158,51 @@ async function declareWinner(character1, character2) {
     }
 }
 
+async function setChar(player, selectChar) {
+    player.Nome = selectChar.Nome
+    player.Velocidade = selectChar.Velocidade
+    player.Manobrabilidade = selectChar.Manobrabilidade
+    player.Poder = selectChar.Poder
+    player.Pontos = selectChar.Pontos
+}
+
+async function chars(code, player) {
+    switch (true) {
+        case code == 1:
+            await setChar(player, mario)
+            break
+        case code == 2:
+            await setChar(player, luigi)
+            break
+        case code == 3:
+            await setChar(player, peach)
+            break
+        case code == 4:
+            await setChar(player, yoshi)
+            break
+        case code == 5:
+            await setChar(player, bowser)
+            break
+        case code == 6:
+            await setChar(player, dk)
+            break
+        default:
+            console.log("Digite um número de 1 a 6")    
+    }
+}
+
+async function selectCharacter() {
+    console.log("Escolha o personagem do Player 1")
+    let code1 = await playerInput("Digite 1 para Mário || Digite 2 para Luigi || Digite 3 para Peach || Digite 4 para Yoshi || Digite 5 para Bowser || Digite 6 para Donkey Kong \n")
+    await chars(parseInt(code1), player1)
+    console.log("Escolha o personagem do Player 2")
+    let code2 = await playerInput("Digite 1 para Mário || Digite 2 para Luigi || Digite 3 para Peach || Digite 4 para Yoshi || Digite 5 para Bowser || Digite 6 para Donkey Kong \n")
+    await chars(parseInt(code2), player2)
+    rl.close()
+}
+
 (async function main() {
+    await selectCharacter()
     console.log(`🏁 Corrida entre ${player1.Nome} ❌ ${player2.Nome} começando...🏁 \n`)
     await playRaceEngine(player1, player2)
     await declareWinner(player1, player2)
