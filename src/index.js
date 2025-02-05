@@ -98,7 +98,17 @@ async function logRollResult(characterName, block, diceResult, attribute) {
 }
 
 async function playRaceEngine(character1, character2) {
-    for (let round = 1; round <= 5; round++) {
+    let roundChoose
+    do {
+        let input = await playerInput("Digite a quantidade de blocos que deseja percorrer: ");
+        roundChoose = parseInt(input)
+        if (isNaN(roundChoose) || roundChoose <= 0) {
+            console.log("🛑 Por favor, digite um número válido maior que 0 🛑")
+        }
+    } while (isNaN(roundChoose) || roundChoose <= 0)
+    rl.close()
+
+    for (let round = 1; round <= roundChoose; round++) {
         console.log(`🏁Rodada ${round}🏁`)
         let block = await getRandomBlock()
         console.log(`Bloco: ${block}`)
@@ -187,8 +197,8 @@ async function chars(code, player) {
             await setChar(player, dk)
             break
         default:
-            console.log("Digite um número de 1 a 6")    
-            let newCode = await playerInput("Escolha novamente: ")
+            console.log("Digite um número de 1 a 6")
+            let newCode = await playerInput("🛑 Escolha novamente entre 1 e 6: 🛑")
             return chars(parseInt(newCode), player)
     }
 }
@@ -199,8 +209,7 @@ async function selectCharacter() {
     await chars(parseInt(code1), player1)
     console.log("Escolha o personagem do Player 2")
     let code2 = await playerInput("Digite 1 para Mário || Digite 2 para Luigi || Digite 3 para Peach || Digite 4 para Yoshi || Digite 5 para Bowser || Digite 6 para Donkey Kong \n")
-    await chars(parseInt(code2), player2)
-    rl.close()
+    await chars(parseInt(code2), player2)    
 }
 
 (async function main() {
