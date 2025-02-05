@@ -105,4 +105,5 @@
 <h1>Alterações pessoais</h1>
 <ul>
   <li>Foram criadas funções que habilitam a seleção de personagens para ambos os jogadores.</li>
+  <li>Foram criadas funções que habilitam a seleção da quantidade de blocos na corrida.</li>
 </ul>
