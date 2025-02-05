@@ -188,6 +188,8 @@ async function chars(code, player) {
             break
         default:
             console.log("Digite um número de 1 a 6")    
+            let newCode = await playerInput("Escolha novamente: ")
+            return chars(parseInt(newCode), player)
     }
 }
 
