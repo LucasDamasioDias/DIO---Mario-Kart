@@ -101,3 +101,8 @@
 
 <input type="checkbox" id="vitoria-item" />
 <label for="vitoria-item">Ao final, vence quem acumulou mais pontos</label>
+
+<h1>Alterações pessoais</h1>
+<ul>
+  <li>Foram criadas funções que habilitam a seleção de personagens para ambos os jogadores.</li>
+</ul>
